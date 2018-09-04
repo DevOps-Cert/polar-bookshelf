@@ -99,15 +99,14 @@ export class DiskDatastore implements Datastore {
      * fingerprint or null if it does not exist.
      */
     async getDocMeta(fingerprint: string): Promise<string | null> {
-
-        let docDir = Paths.join(this.dataDir, fingerprint);
+        let docDir = this.dataDir + "/" + fingerprint;
 
         if(! await this.existsAsync(docDir)) {
             log.error("Document dir is missing: " + docDir);
             return null;
         }
 
-        let statePath = Paths.join(docDir, 'state.json');
+        let statePath = docDir + "/state.json";
 
         if(! await this.existsAsync(statePath)) {
             log.error("File does not exist: " + statePath);
@@ -123,8 +122,8 @@ export class DiskDatastore implements Datastore {
 
         let canAccess =
             await this.accessAsync(statePath, fs.constants.R_OK | fs.constants.W_OK)
-                      .then(() => true)
-                      .catch(() => false);
+                .then(() => true)
+                .catch(() => false);
 
         if(! canAccess) {
             log.error("No access: " + statePath);
