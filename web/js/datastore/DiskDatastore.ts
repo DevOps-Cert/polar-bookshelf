@@ -170,12 +170,12 @@ export class DiskDatastore implements Datastore {
 
         log.info("Performing sync of content into disk datastore.");
 
-        let docDir = Paths.join(this.dataDir, fingerprint);
+        let docDir = this.dataDir + "/" + fingerprint;
 
         let dirExists =
             await this.statAsync(docDir)
                 .then(() => true)
-                .catch(() => false);
+                .catch(() => false)
 
         if ( ! dirExists) {
             // the directory for this file is missing.
@@ -183,13 +183,14 @@ export class DiskDatastore implements Datastore {
             await this.mkdirAsync(docDir)
         }
 
-        let statePath = Paths.join(docDir, "state.json");
+        let statePath = docDir + "/state.json";
 
         log.info(`Writing data to state file: ${statePath}`);
 
         // FIXME: is this UTF-8 ??
 
         return await this.writeFileAsync(statePath, data);
+
     }
 
     async getDocMetaFiles(): Promise<DocMetaRef[]> {
