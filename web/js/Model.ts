@@ -74,8 +74,8 @@ export class Model {
             // right now we just sync the datastore on mutation.  We do not
             // attempt to use a journal yet.
 
-            await this.persistenceLayer.sync(this.docMeta.docInfo.fingerprint, this.docMeta);
-
+            this.persistenceLayer.sync(this.docMeta.docInfo.fingerprint, this.docMeta)
+                .catch(err => log.error("Unable to sync: ", err));
         });
 
         this.docMeta = Proxies.create(this.docMeta, (traceEvent: TraceEvent) => {

@@ -191,7 +191,6 @@ export class DiskDatastore implements Datastore {
 
         return await this.writeFileAsync(statePath, data);
 
-
     }
 
     async getDocMetaFiles(): Promise<DocMetaRef[]> {
