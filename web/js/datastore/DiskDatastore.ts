@@ -99,6 +99,7 @@ export class DiskDatastore implements Datastore {
      * fingerprint or null if it does not exist.
      */
     async getDocMeta(fingerprint: string): Promise<string | null> {
+
         let docDir = this.dataDir + "/" + fingerprint;
 
         if(! await this.existsAsync(docDir)) {
@@ -173,8 +174,8 @@ export class DiskDatastore implements Datastore {
 
         let dirExists =
             await this.statAsync(docDir)
-                      .then(() => true)
-                      .catch(() => false);
+                .then(() => true)
+                .catch(() => false);
 
         if ( ! dirExists) {
             // the directory for this file is missing.
@@ -189,7 +190,6 @@ export class DiskDatastore implements Datastore {
         // FIXME: is this UTF-8 ??
 
         return await this.writeFileAsync(statePath, data);
-
     }
 
     async getDocMetaFiles(): Promise<DocMetaRef[]> {
