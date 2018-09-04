@@ -202,11 +202,11 @@ export class DiskDatastore implements Datastore {
         for (let i = 0; i < fileNames.length; i++) {
             const fileName = fileNames[i];
 
-            const fileStat = await Files.statAsync(Paths.join(this.dataDir, fileName));
+            const fileStat = await Files.statAsync(`${this.dataDir}/${fileName}`);
 
             if(fileStat.isDirectory()) {
 
-                let stateFile = Paths.join(this.dataDir, fileName, 'state.json');
+                let stateFile = `${this.dataDir}/${fileName}/state.json`;
                 let exists = await Files.existsAsync(stateFile);
                 if (exists) {
                     result.push({fingerprint: fileName});
@@ -231,7 +231,7 @@ export class DiskDatastore implements Datastore {
     }
 
     static getDataDir() {
-        return Paths.join(DiskDatastore.getUserHome()!, ".polar");
+        return DiskDatastore.getUserHome() + "/.polar";
     }
 
 }
